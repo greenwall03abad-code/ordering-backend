@@ -4,15 +4,14 @@ require 'db.php';
 $action = $_GET['action'] ?? '';
 
 if ($action === 'init') {
-    // Create tables
     $pdo->exec("CREATE TABLE IF NOT EXISTS products (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         category VARCHAR(50) NOT NULL,
         price DECIMAL(10,2) NOT NULL,
-        emoji VARCHAR(10) DEFAULT '🍽️',
-        description VARCHAR(200) DEFAULT '',
-        stock TINYINT(1) DEFAULT 1
+        emoji VARCHAR(10) NOT NULL,
+        description VARCHAR(200) NOT NULL,
+        stock TINYINT(1) NOT NULL DEFAULT 1
     )");
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS orders (
@@ -31,7 +30,6 @@ if ($action === 'init') {
         qty INT NOT NULL
     )");
 
-    // Insert default products if empty
     $count = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
     if ($count == 0) {
         $products = [
