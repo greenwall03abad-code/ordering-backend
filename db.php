@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$host = "mysql-1ec26843-greenwall03-9f1f.g.aivencloud.com";
+$host = "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
 $port = "11572";
 $db   = "defaultdb";
 $user = "avnadmin";
