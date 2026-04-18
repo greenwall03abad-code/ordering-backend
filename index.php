@@ -2,17 +2,16 @@
 // Serve static images
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if (preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $uri)) {
-    $file = __DIR__ . $uri;
+    $file = '/var/www/html' . $uri;
     if (file_exists($file)) {
         $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         $mime = ['jpg'=>'image/jpeg','jpeg'=>'image/jpeg','png'=>'image/png','gif'=>'image/gif','webp'=>'image/webp'];
         header('Content-Type: ' . ($mime[$ext] ?? 'image/jpeg'));
-        header('Cache-Control: public, max-age=86400');
         readfile($file);
         exit();
     }
     http_response_code(404);
-    exit('Image not found');
+    exit('Image not found: ' . $file);
 }
 
 require 'db.php';
