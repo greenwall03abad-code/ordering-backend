@@ -9,20 +9,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$host = "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
+$host = "mysql-1ec26843-greenwall03-9f1f.g.aivencloud.com";
 $port = "11572";
 $db   = "defaultdb";
 $user = "avnadmin";
 $pass = "AVNS_DFqIpIfUolU152tQ2bu";
+
 try {
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
+        "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4",
         $user,
         $pass,
         [PDO::MYSQL_ATTR_SSL_CA => true,
          PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false]
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("SET NAMES utf8mb4");
 } catch (PDOException $e) {
     echo json_encode(["error" => "DB failed: " . $e->getMessage()]);
     exit();
