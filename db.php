@@ -13,7 +13,7 @@ $host = "mysql-1ec26843-greenwall03-9f1f.g.aivencloud.com";
 $port = "11572";
 $db   = "defaultdb";
 $user = "avnadmin";
-$pass = "AVNS_your_actual_<redacted>";
+$pass = "AVNS_DFqIpIfUolU152tQ2bu";
 try {
     $pdo = new PDO(
         "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
