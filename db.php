@@ -9,17 +9,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$host = getenv('MYSQLHOST');
-$db   = getenv('MYSQLDATABASE');
-$user = getenv('MYSQLUSER');
-$pass = getenv('MYSQLPASSWORD');
-$port = getenv('MYSQLPORT') ?: 3306;
+$host = "mysql-1ec26843-greenwall03-9f1f.g.aivencloud.com";
+$port = "11572";
+$db   = "defaultdb";
+$user = "avnadmin";
+$pass = "AVNS_your_actual_password_here";
 
 try {
-    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8", $user, $pass);
+    $pdo = new PDO(
+        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
+        $user,
+        $pass,
+        [PDO::MYSQL_ATTR_SSL_CA => true,
+         PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false]
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo json_encode(["error" => "DB connection failed: " . $e->getMessage()]);
+    echo json_encode(["error" => "DB failed: " . $e->getMessage()]);
     exit();
 }
 ?>
