@@ -1,13 +1,23 @@
-http_response_code(404);
-$debug = [
-    'uri' => $uri,
-    'file' => $file,
-    'dir' => __DIR__,
-    'files_in_dir' => scandir(__DIR__),
-    'images_exists' => is_dir(__DIR__ . '/images'),
-    'images_contents' => is_dir(__DIR__ . '/images') ? scandir(__DIR__ . '/images') : 'no images folder'
-];
-exit(json_encode($debug));
+<?php
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if (preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $uri)) {
+    $file = __DIR__ . $uri;
+    if (file_exists($file)) {
+        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $mime = ['jpg'=>'image/jpeg','jpeg'=>'image/jpeg','png'=>'image/png','gif'=>'image/gif','webp'=>'image/webp'];
+        header('Content-Type: ' . ($mime[$ext] ?? 'image/jpeg'));
+        readfile($file);
+        exit();
+    }
+    $debug = [
+        'uri' => $uri,
+        'file' => $file,
+        'dir' => __DIR__,
+        'files' => scandir(__DIR__),
+        'images_folder' => is_dir(__DIR__.'/images') ? scandir(__DIR__.'/images') : 'NO IMAGES FOLDER'
+    ];
+    http_response_code(404);
+    exit(json_encode($debug));
 }
 
 require 'db.php';
